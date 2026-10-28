@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Server } from 'socket.io';
-import { connect } from './db.js';
+import { connect, disconnect } from './db.js';
 import { loadUser } from './auth.js';
 import { initRealtime } from './game/rooms.js';
 import { User } from './models.js';
@@ -11,6 +11,9 @@ import { seed } from './seed.js';
 import authRoutes from './routes/auth.js';
 import tableRoutes from './routes/tables.js';
 import playerRoutes from './routes/players.js';
+
+// Optional .env file in the project root (Node's built-in loader).
+try { process.loadEnvFile(); } catch { /* no .env: defaults apply */ }
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const mod = (p) => path.join(root, 'node_modules', p);
@@ -52,9 +55,11 @@ export function createApp() {
 
   app.use(express.json({ limit: '20kb' }));
 
-  // Writes must be JSON: a cross-site HTML form can't send that, which blocks CSRF.
+  // Writes must declare JSON: a cross-site HTML form can't send that header, which blocks CSRF.
+  // (Checked on the header itself; req.is() returns null for body-less DELETEs.)
   app.use('/api', (req, res, next) => {
-    if (!['GET', 'HEAD'].includes(req.method) && !req.is('application/json')) {
+    const json = /^application\/json\b/i.test(req.headers['content-type'] || '');
+    if (!['GET', 'HEAD'].includes(req.method) && !json) {
       return res.status(415).json({ error: 'Send JSON with Content-Type: application/json' });
     }
     next();
@@ -84,7 +89,7 @@ export function createApp() {
 
 export async function start(port = Number(process.env.PORT) || 3000) {
   await connect();
-  if (process.env.AUTO_SEED !== '0' && (await User.estimatedDocumentCount()) === 0) {
+  if (process.env.AUTO_SEED !== '0' && !(await User.exists({}))) {
     console.log('[spillway] empty database, loading demo data');
     await seed();
   }
@@ -102,4 +107,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.error(err);
     process.exit(1);
   });
+  // Stop the embedded MongoDB too, so it doesn't keep ./.data locked after Ctrl+C.
+  for (const sig of ['SIGINT', 'SIGTERM']) {
+    process.once(sig, () => {
+      console.log('\n[spillway] shutting down');
+      disconnect().finally(() => process.exit(0));
+    });
+  }
 }

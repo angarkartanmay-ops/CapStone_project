@@ -79,8 +79,8 @@ router.get('/bot', async (_req, res) => {
 
 router.get('/stats', async (_req, res) => {
   const [players, matches, best, tables] = await Promise.all([
-    User.estimatedDocumentCount(),
-    Match.estimatedDocumentCount(),
+    User.countDocuments(),
+    Match.countDocuments(),
     Match.findOne().sort({ longestSpill: -1, createdAt: 1 }).select('longestSpill winnerName'),
     Table.countDocuments({ visibility: 'public' }),
   ]);

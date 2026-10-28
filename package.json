@@ -6,13 +6,13 @@
   "type": "module",
   "main": "server/index.js",
   "scripts": {
-    "start": "node --env-file-if-exists=.env server/index.js",
-    "dev": "node --env-file-if-exists=.env --watch server/index.js",
-    "seed": "node --env-file-if-exists=.env server/seed.js",
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed": "node server/seed.js",
     "test": "node --test --test-concurrency=1 \"test/*.test.js\""
   },
   "engines": {
-    "node": ">=22.9"
+    "node": ">=22"
   },
   "license": "MIT",
   "dependencies": {
