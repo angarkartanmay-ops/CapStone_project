@@ -1,0 +1,102 @@
+/* Playing cards. Size with --cw; everything inside scales from it. */
+.card {
+  --cw: 104px;
+  --c: var(--ink);
+  position: relative;
+  width: var(--cw);
+  aspect-ratio: 5 / 7;
+  flex: none;
+  border-radius: calc(var(--cw) * 0.085);
+  background: var(--card);
+  color: var(--c);
+  box-shadow: var(--shadow-card), inset 0 0 0 1px rgba(27, 25, 22, 0.12);
+  font-family: var(--f-display);
+  user-select: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+.card.ember { --c: var(--ember); }
+.card.tide { --c: var(--tide); }
+.card.moss { --c: var(--moss); }
+.card.sol { --c: var(--sol); }
+
+/* inset frame */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--cw) * 0.06);
+  border: max(1px, calc(var(--cw) * 0.012)) solid var(--c);
+  border-radius: calc(var(--cw) * 0.05);
+  opacity: 0.85;
+  z-index: -1;
+}
+/* riso dot texture */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.09;
+  background-image: radial-gradient(var(--c) 0.9px, transparent 1.2px);
+  background-size: calc(var(--cw) * 0.06) calc(var(--cw) * 0.06);
+}
+
+.card .corner {
+  position: absolute;
+  top: calc(var(--cw) * 0.1);
+  left: calc(var(--cw) * 0.12);
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--cw) * 0.03);
+  font-weight: 800;
+  font-size: calc(var(--cw) * 0.2);
+  line-height: 0.8;
+}
+.card .corner.b { top: auto; left: auto; bottom: calc(var(--cw) * 0.1); right: calc(var(--cw) * 0.12); transform: rotate(180deg); }
+.card .corner svg { width: calc(var(--cw) * 0.12); height: calc(var(--cw) * 0.12); }
+.card .face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: calc(var(--cw) * 0.86);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  padding-top: calc(var(--cw) * 0.06);
+}
+
+/* Action cards: solid suit field with the icon knocked out in paper. */
+.card.action .face { inset: calc(var(--cw) * 0.2) calc(var(--cw) * 0.18); background: var(--c); color: var(--card); border-radius: calc(var(--cw) * 0.04); padding: 0; }
+.card.action .face svg { width: 62%; height: auto; }
+.card.action .tag {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--cw) * 0.07);
+  text-align: center;
+  font: 700 calc(var(--cw) * 0.085) / 1 var(--f-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.card.action .corner { font-size: calc(var(--cw) * 0.12); }
+.card.action .corner.b { display: none; }
+
+/* Prism: the wild. Ink card, four-colour diamond. */
+.card.prism { background: var(--ink); color: var(--card); --c: var(--card); }
+.card.prism::after { opacity: 0.06; }
+.card.prism .face svg { width: 62%; height: auto; }
+.card.prism .tag { color: var(--card); }
+
+/* Back */
+.card.back { background: var(--ink); --c: var(--sol); }
+.card.back::before { border-color: rgba(238, 232, 220, 0.4); }
+.card.back::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 50% 120%, transparent 0 22%, rgba(238, 232, 220, 0.16) 22.5% 23.5%, transparent 24% 32%, rgba(238, 232, 220, 0.16) 32.5% 33.5%, transparent 34% 42%, rgba(238, 232, 220, 0.16) 42.5% 43.5%, transparent 44% 52%, rgba(238, 232, 220, 0.16) 52.5% 53.5%, transparent 54% 62%, rgba(238, 232, 220, 0.16) 62.5% 63.5%, transparent 64%),
+    radial-gradient(circle at 50% -20%, transparent 0 22%, rgba(238, 232, 220, 0.1) 22.5% 23.5%, transparent 24% 32%, rgba(238, 232, 220, 0.1) 32.5% 33.5%, transparent 34% 42%, rgba(238, 232, 220, 0.1) 42.5% 43.5%, transparent 44%);
+}
+.card.back .face { color: var(--card); font-size: calc(var(--cw) * 0.22); letter-spacing: 0.04em; }
+.card.back .face span { display: grid; place-items: center; width: calc(var(--cw) * 0.42); height: calc(var(--cw) * 0.42); border: 1px solid rgba(238, 232, 220, 0.5); transform: rotate(45deg); }
+.card.back .face span b { transform: rotate(-45deg); font-weight: 800; }
