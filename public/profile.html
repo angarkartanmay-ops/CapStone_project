@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Player — Spillway</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/profile.js"></script>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header data-header></header>
+
+  <main id="main" class="wrap profile" data-profile>
+    <section class="p-head">
+      <div class="skel" style="width:88px;height:88px;border-radius:50%"></div>
+      <div><div class="skel" style="width:280px;height:56px"></div></div>
+    </section>
+  </main>
+
+  <dialog id="delete-account" aria-labelledby="da-h">
+    <form class="da-form" novalidate>
+      <div class="dialog-head"><h2 id="da-h">Delete account</h2></div>
+      <div class="dialog-body">
+        <p>Your profile, rating and tables are removed for good. Matches you played stay in other players' history under your name, with no link back to you.</p>
+        <p class="form-error" role="alert"></p>
+        <div class="field">
+          <label for="da-pass">Type your password to confirm</label>
+          <input id="da-pass" name="password" type="password" autocomplete="current-password" required>
+          <span class="error"></span>
+        </div>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn outline" type="button" data-cancel>Keep my account</button>
+        <button class="btn danger" type="submit">Delete forever</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

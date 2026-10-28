@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rules — Spillway</title>
+  <meta name="description" content="The complete rules of Spillway, a shedding card game for three or four players.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cards.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/rules.js"></script>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header data-header></header>
+  <main id="main" class="wrap rules-page">
+    <section class="rules-hero">
+      <div>
+        <p class="eyebrow">The complete rules · reads in four minutes</p>
+        <h1 class="display">How to spill.</h1>
+      </div>
+      <p>Three or four players, seven cards each, one deck of a hundred. Be the first to empty your hand. Everything else is detail, and the detail is below.</p>
+    </section>
+
+    <article class="rule">
+      <span class="rule-n">1</span>
+      <div>
+        <h2>The deck</h2>
+        <table class="deck-table">
+          <thead><tr><th>Card</th><th>Each suit</th><th class="mono">Total</th></tr></thead>
+          <tbody>
+            <tr><td>Numbers 1 to 9</td><td>two of each</td><td class="mono">72</td></tr>
+            <tr><td>Surge</td><td>two</td><td class="mono">8</td></tr>
+            <tr><td>Eddy</td><td>two</td><td class="mono">8</td></tr>
+            <tr><td>Gift</td><td>two</td><td class="mono">8</td></tr>
+            <tr><td>Prism (wild, no suit)</td><td>–</td><td class="mono">4</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:16px">Four suits: <b>Ember</b>, <b>Tide</b>, <b>Moss</b> and <b>Sol</b>. Each has its own colour and mark, so the cards stay readable for colour-blind players.</p>
+      </div>
+      <div class="rule-art" data-cards='[{"suit":"ember","kind":"num","rank":1},{"suit":"tide","kind":"num","rank":5},{"suit":"moss","kind":"num","rank":9},{"suit":"sol","kind":"num","rank":3}]'></div>
+    </article>
+
+    <article class="rule">
+      <span class="rule-n">2</span>
+      <div>
+        <h2>The deal and the turn</h2>
+        <p>Everyone gets seven cards. The top card of the pile is turned up; if it's an action, it goes back under the deck until a number shows. A random player starts.</p>
+        <p>On your turn, play a card that matches the top card by <b>suit</b> or by <b>number</b>. Action cards also match the same action in any suit. A prism plays on anything.</p>
+        <p>If you can't play, or would rather not, draw one card. If it fits, you may play it straight away. Otherwise your turn ends. A turn clock keeps things moving; if it runs out, you draw automatically.</p>
+      </div>
+      <div class="rule-art" data-cards='[{"suit":"ember","kind":"num","rank":4},"sep",{"suit":"ember","kind":"num","rank":8},{"suit":"moss","kind":"num","rank":4}]'></div>
+    </article>
+
+    <article class="rule">
+      <span class="rule-n">3</span>
+      <div>
+        <h2>The spill</h2>
+        <p>After you play a number, you may keep going with more numbers of the <b>same suit</b>, each one step <b>higher</b> or each one step <b>lower</b> than the last. You can't change direction mid-run, and there is no wrapping from 9 to 1.</p>
+        <p>A spill of <b>three or more cards</b> splashes the next player, who draws one card before their turn.</p>
+      </div>
+      <div class="rule-art" data-cards='[{"suit":"tide","kind":"num","rank":4},{"suit":"tide","kind":"num","rank":5},{"suit":"tide","kind":"num","rank":6},{"suit":"tide","kind":"num","rank":7}]'></div>
+    </article>
+
+    <article class="rule">
+      <span class="rule-n">4</span>
+      <div>
+        <h2>Action cards</h2>
+        <ul>
+          <li><b>Surge.</b> The next player draws two and loses their turn. They can dodge it by playing a surge of their own, which adds two more and passes the bill along. (Hosts can switch stacking off.)</li>
+          <li><b>Eddy.</b> Reverses the direction of play.</li>
+          <li><b>Gift.</b> Choose one of your other cards and hand it to the next player. (Hosts can switch gifts off.)</li>
+          <li><b>Prism.</b> Wild. Play it on anything and name the suit that follows. While a surge is pending, a prism does not dodge it.</li>
+        </ul>
+      </div>
+      <div class="rule-art" data-cards='[{"suit":"ember","kind":"surge"},{"suit":"moss","kind":"eddy"},{"suit":"sol","kind":"gift"},{"suit":null,"kind":"prism"}]'></div>
+    </article>
+
+    <article class="rule">
+      <span class="rule-n">5</span>
+      <div>
+        <h2>Winning and rating</h2>
+        <p>The first player with no cards wins the match and scores the value of every card still held by the others: numbers count their face value, actions 10, prisms 20.</p>
+        <p>Matches are rated with an Elo system. Beating stronger players moves your rating more. House bots play at a fixed 1300.</p>
+      </div>
+      <div class="rule-art" data-cards='[null,null,null]'></div>
+    </article>
+  </main>
+  <footer class="site-foot"><div class="wrap"><span>Spillway · Capstone project</span><a href="/lobby">Find a table &rarr;</a></div></footer>
+</body>
+</html>

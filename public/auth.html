@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in — Spillway</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cards.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/auth.js"></script>
+</head>
+<body class="auth-page">
+  <div class="auth-split">
+    <aside class="auth-art" aria-hidden="true">
+      <a class="wordmark" href="/"><span class="mark"><i></i><i></i><i></i><i></i></span>Spillway</a>
+      <div class="auth-fan" data-fan></div>
+      <p class="auth-quote">&ldquo;Tide 4, 5, 6, 7. Sorry, Arjun, draw one.&rdquo;<span>Overheard in the Lab 4 lunch break</span></p>
+    </aside>
+
+    <main class="auth-main">
+      <div class="auth-box">
+        <div class="tabs" role="tablist" aria-label="Account">
+          <button role="tab" id="tab-login" aria-controls="form-login" aria-selected="true" data-mode="login">Sign in</button>
+          <button role="tab" id="tab-register" aria-controls="form-register" aria-selected="false" data-mode="register">Create account</button>
+        </div>
+
+        <form id="form-login" role="tabpanel" aria-labelledby="tab-login" class="auth-form" novalidate>
+          <h1 class="display">Welcome back.</h1>
+          <p class="form-error" role="alert"></p>
+          <div class="field">
+            <label for="login">Username or email</label>
+            <input id="login" name="login" type="text" autocomplete="username" required>
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+            <span class="error"></span>
+          </div>
+          <button class="btn" type="submit" data-suit="tide">Sign in <span class="arrow" aria-hidden="true">&rarr;</span></button>
+          <div class="demo-hint">
+            <span>Trying it out? Use the demo seat: <b class="mono">demo</b> / <b class="mono">deal-me-in-7</b></span>
+            <button class="btn ghost sm" type="button" data-demo>Fill it in</button>
+          </div>
+        </form>
+
+        <form id="form-register" role="tabpanel" aria-labelledby="tab-register" class="auth-form" novalidate hidden>
+          <h1 class="display">Pull up a chair.</h1>
+          <p class="form-error" role="alert"></p>
+          <div class="field">
+            <label for="displayName">Display name</label>
+            <input id="displayName" name="displayName" type="text" autocomplete="name" maxlength="32" required>
+            <span class="hint">What other players see at the table.</span>
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" autocomplete="username" maxlength="20" required>
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+            <span class="error"></span>
+          </div>
+          <div class="field">
+            <label for="reg-password">Password</label>
+            <input id="reg-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+            <span class="hint">At least 8 characters.</span>
+            <span class="error"></span>
+          </div>
+          <button class="btn" type="submit" data-suit="moss">Create account <span class="arrow" aria-hidden="true">&rarr;</span></button>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
