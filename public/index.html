@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spillway — play it in runs</title>
+  <meta name="description" content="Spillway is a real-time shedding card game for three or four players. Match the table, spill a run in one suit, and empty your hand first.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+  <link rel="stylesheet" href="/vendor/lenis/lenis.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cards.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <script type="module" src="/js/landing.js"></script>
+</head>
+<body class="landing">
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header data-header></header>
+
+  <canvas class="stage" aria-hidden="true"></canvas>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow reveal">A card game for three or four &nbsp;/&nbsp; live tables &nbsp;/&nbsp; bots that learn</p>
+          <h1 class="display hero-title">
+            <span class="line"><span>Play it</span></span>
+            <span class="line"><span>in runs.</span></span>
+            <span class="line sub"><span>Empty your hand first.</span></span>
+          </h1>
+          <p class="lede reveal">Spillway is a shedding game with one twist. When your cards climb or fall in a single suit, you lay the whole run down in one turn. Spill three or more and the next player catches the overflow.</p>
+          <div class="cta-row reveal">
+            <a class="btn" href="/lobby" data-suit="tide">Take a seat <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a class="btn outline" href="/rules">Read the rules</a>
+          </div>
+        </div>
+      </div>
+      <dl class="wrap stat-strip reveal" data-stats>
+        <div><dt>Matches dealt</dt><dd class="mono" data-k="matches">&nbsp;</dd></div>
+        <div><dt>Players</dt><dd class="mono" data-k="players">&nbsp;</dd></div>
+        <div><dt>Longest spill</dt><dd class="mono" data-k="longestSpill">&nbsp;</dd></div>
+        <div><dt>Online now</dt><dd class="mono"><span class="live-dot"></span> <span data-k="online">&nbsp;</span></dd></div>
+      </dl>
+    </section>
+
+    <!-- Pinned scrollytelling: the 3D hand plays a run while these steps change -->
+    <section class="spill" aria-label="How a spill works">
+      <div class="wrap spill-grid">
+        <ol class="steps">
+          <li class="step is-active">
+            <span class="step-n mono">01</span>
+            <h2 class="display">Match the table.</h2>
+            <p>Lay a card that shares the suit or the number on top of the pile. Ember 4 is showing, so any Ember works, and so does any 4.</p>
+          </li>
+          <li class="step">
+            <span class="step-n mono">02</span>
+            <h2 class="display">Keep climbing.</h2>
+            <p>Holding Tide 5, 6 and 7 as well? Put them all down after the 4. One suit, one step at a time, up or down. That's a spill.</p>
+          </li>
+          <li class="step">
+            <span class="step-n mono">03</span>
+            <h2 class="display">Splash.</h2>
+            <p>A spill of three or more makes the next player draw a card. Short runs empty your hand. Long runs ruin somebody's evening.</p>
+          </li>
+        </ol>
+        <div class="spill-progress" aria-hidden="true"><i></i></div>
+      </div>
+    </section>
+
+    <!-- Specials: zig-zag rows -->
+    <section class="specials">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">Four cards that bend a round</p>
+          <h2 class="display">Not every card is a number.</h2>
+        </header>
+
+        <article class="special">
+          <div class="special-art" data-card='{"suit":"ember","kind":"surge"}'></div>
+          <div class="special-copy">
+            <span class="special-k mono">Surge &middot; 8 in the deck</span>
+            <h3>The next player draws two and loses their turn.</h3>
+            <p>Unless they answer with a surge of their own. Then the bill doubles and moves on, and keeps moving until someone can't pay it.</p>
+          </div>
+        </article>
+
+        <article class="special flip">
+          <div class="special-art" data-card='{"suit":"moss","kind":"eddy"}'></div>
+          <div class="special-copy">
+            <span class="special-k mono">Eddy &middot; 8 in the deck</span>
+            <h3>The table turns around.</h3>
+            <p>Play passes the other way. The player who just went is suddenly next, and the one who was about to win has to wait.</p>
+          </div>
+        </article>
+
+        <article class="special">
+          <div class="special-art" data-card='{"suit":"sol","kind":"gift"}'></div>
+          <div class="special-copy">
+            <span class="special-k mono">Gift &middot; 8 in the deck</span>
+            <h3>Hand your worst card to the next player.</h3>
+            <p>You choose which one. They have to take it. Best saved for the moment someone gets down to two cards.</p>
+          </div>
+        </article>
+
+        <article class="special flip">
+          <div class="special-art" data-card='{"suit":null,"kind":"prism"}'></div>
+          <div class="special-copy">
+            <span class="special-k mono">Prism &middot; 4 in the deck</span>
+            <h3>The wild. Plays on anything.</h3>
+            <p>Name the suit that follows. Holding one back for the last turn is usually smarter than spending it early. The bots worked that out on their own.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Live bot weights -->
+    <section class="learns" id="learns">
+      <div class="wrap learns-grid">
+        <div class="learns-copy">
+          <p class="eyebrow">The house bots</p>
+          <h2 class="display">The table learns.</h2>
+          <p>Every finished match trains the bots that fill empty seats. A small linear model scores each legal move on seven traits, then shifts its weights toward whatever the winner did. Nothing is hidden: these are the live numbers from the server.</p>
+          <p class="learns-meta mono" data-brain-meta>&nbsp;</p>
+        </div>
+        <div class="weights" data-weights role="table" aria-label="Current bot weights">
+          <div class="w-row skel" style="height:44px"></div>
+          <div class="w-row skel" style="height:44px"></div>
+          <div class="w-row skel" style="height:44px"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Standings + recent -->
+    <section class="standings">
+      <div class="wrap standings-grid">
+        <div>
+          <header class="section-head">
+            <p class="eyebrow">Rated play</p>
+            <h2 class="display">Standings.</h2>
+          </header>
+          <ol class="board" data-board>
+            <li class="skel" style="height:56px"></li><li class="skel" style="height:56px"></li><li class="skel" style="height:56px"></li>
+          </ol>
+          <a class="btn outline" href="/lobby#leaderboard">Full leaderboard <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <aside class="recent">
+          <p class="eyebrow">Just finished</p>
+          <ul class="recent-list" data-recent></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="closer">
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track display">
+          <span>Spill</span><i></i><span>Surge</span><i></i><span>Eddy</span><i></i><span>Gift</span><i></i><span>Prism</span><i></i>
+          <span>Spill</span><i></i><span>Surge</span><i></i><span>Eddy</span><i></i><span>Gift</span><i></i><span>Prism</span><i></i>
+        </div>
+      </div>
+      <div class="wrap closer-grid">
+        <h2 class="display">Deal me in.</h2>
+        <div>
+          <p>Open a table, invite two friends with a six-letter code, or let the bots fill the empty seats. A match takes about six minutes.</p>
+          <a class="btn" href="/lobby" data-suit="ember">Open the lobby <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot dark">
+    <div class="wrap">
+      <span>Spillway &middot; Capstone project, Department of Computer Science &amp; Engineering</span>
+      <span>HTML, CSS, JavaScript &middot; Node.js + Express &middot; MongoDB &middot; Socket.IO &middot; Three.js</span>
+    </div>
+  </footer>
+</body>
+</html>
