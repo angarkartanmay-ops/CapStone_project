@@ -90,10 +90,11 @@ export async function seed({ quiet = false } = {}) {
 
   // Recorded history: 140 matches between seeded players (and the odd bot) over ~6 weeks.
   const matches = [];
-  let clock = Date.now() - 44 * 864e5;
+  // ~140 matches spread over the last six weeks, the newest a couple of hours ago.
+  let clock = Date.now() - 42 * 864e5;
   const ratingOf = (p) => (p.isBot ? 1300 : p.user.rating);
   for (let k = 0; k < 140; k++) {
-    clock += (0.15 + rng() * 0.5) * 864e5;
+    clock = Math.min(clock + (0.08 + rng() * 0.44) * 864e5, Date.now() - (140 - k) * 25 * 60000);
     const table = tables[Math.floor(rng() * tables.length)];
     const size = table.seats === 3 ? 3 : 3 + Math.floor(rng() * 2);
     const pool = [...users].sort(() => rng() - 0.5);
@@ -155,6 +156,7 @@ export async function seed({ quiet = false } = {}) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try { process.loadEnvFile(); } catch { /* no .env */ }
   const { connect, disconnect } = await import('./db.js');
   await connect();
   await seed();
