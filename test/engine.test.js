@@ -9,10 +9,12 @@ const n = (suit, rank) => ({ id: `${suit}${rank}`, suit, kind: 'num', rank });
 const players = (k) => Array.from({ length: k }, (_, i) => ({ name: `P${i}` }));
 const total = (s) => s.draw.length + s.discard.length + s.players.reduce((a, p) => a + p.hand.length, 0);
 
-test('deck has 100 unique cards', () => {
+test('deck has 100 unique cards, 92 without gifts', () => {
   const d = buildDeck();
   assert.equal(d.length, 100);
   assert.equal(new Set(d.map((c) => c.id)).size, 100);
+  assert.equal(buildDeck({ gift: false }).filter((c) => c.kind === 'gift').length, 0);
+  assert.equal(buildDeck({ gift: false }).length, 92);
 });
 
 test('deal: 7 each, a number card on top', () => {
@@ -91,11 +93,16 @@ test('draw then pass, and the view hides other hands', () => {
   assert.equal(typeof v.players[1].count, 'number');
 });
 
-test('1,000 bot-only matches finish, conserve cards and train', () => {
+test('1,000 bot-only matches under every house rule finish, conserve cards and train', () => {
   let weights = { ...DEFAULT_WEIGHTS };
   const rng = seeded(42);
+  // Every combination of house rules, 250 matches each.
+  const variants = [{}, { gift: false }, { surgeStack: false }, { gift: false, surgeStack: false }];
+  let stalled = 0;
   for (let g = 0; g < 1000; g++) {
-    const s = newGame(players(3 + (g % 2)), {}, rng);
+    const rules = variants[g % 4];
+    const s = newGame(players(3 + (g % 2)), rules, rng);
+    const deckSize = rules.gift === false ? 92 : 100;
     const history = [];
     for (let turn = 0; s.winner === null; turn++) {
       assert.ok(turn < 2000, `match ${g} did not finish`);
@@ -106,10 +113,12 @@ test('1,000 bot-only matches finish, conserve cards and train', () => {
         const r = draw(s, i);
         if (!r.ended) pass(s, i);
       } else play(s, i, pick.move);
-      assert.equal(total(s), 100);
+      assert.equal(total(s), deckSize);
     }
+    if (s.players[s.winner].hand.length) stalled++;
     assert.ok(scores(s)[s.winner] >= 0);
     weights = train(weights, history, s.winner);
   }
+  assert.ok(stalled < 10, `${stalled} matches hit the turn limit`);
   assert.ok(FEATURES.every((k) => Number.isFinite(weights[k]) && Math.abs(weights[k]) <= 3));
 });

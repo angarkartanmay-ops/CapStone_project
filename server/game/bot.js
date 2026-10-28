@@ -97,7 +97,7 @@ export function chooseMove(s, idx, weights = DEFAULT_WEIGHTS, rng = Math.random,
  * toward their features, losers' moves push gently away.
  * ponytail: linear model + hand-picked features; a real policy net is the upgrade path.
  */
-export function train(weights, history, winner, lr = 0.02) {
+export function train(weights, history, winner, lr = 0.005) {
   const w = { ...DEFAULT_WEIGHTS, ...weights };
   const losers = new Set(history.map((h) => h.player).filter((p) => p !== winner)).size || 1;
   for (const { player, f } of history) {

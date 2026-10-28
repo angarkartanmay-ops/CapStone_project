@@ -3,19 +3,22 @@
 
 export const SUITS = ['ember', 'tide', 'moss', 'sol'];
 export const HAND_SIZE = 7;
+// Safety net: a match this long is a stalemate, so the smallest hand wins.
+export const MAX_TURNS = 500;
 const VALUES = { surge: 10, eddy: 10, gift: 10, prism: 20 };
 
-export function buildDeck() {
+/** 100 cards; 92 when gifts are switched off (an unplayable card could never leave a hand). */
+export function buildDeck({ gift = true } = {}) {
   const deck = [];
   let n = 0;
   for (const suit of SUITS) {
     for (let copy = 0; copy < 2; copy++) {
       for (let rank = 1; rank <= 9; rank++) deck.push({ id: `c${n++}`, suit, kind: 'num', rank });
-      for (const kind of ['surge', 'eddy', 'gift']) deck.push({ id: `c${n++}`, suit, kind });
+      for (const kind of gift ? ['surge', 'eddy', 'gift'] : ['surge', 'eddy']) deck.push({ id: `c${n++}`, suit, kind });
     }
   }
   for (let i = 0; i < 4; i++) deck.push({ id: `c${n++}`, suit: null, kind: 'prism' });
-  return deck; // 100 cards
+  return deck;
 }
 
 export function shuffle(arr, rng = Math.random) {
@@ -32,9 +35,10 @@ export const nextIndex = (s, from = s.turn) => (from + s.dir + s.players.length)
 
 export function newGame(players, rules = {}, rng = Math.random) {
   if (players.length < 3 || players.length > 4) throw new Error('Spillway needs 3 or 4 players');
+  const gift = rules.gift !== false;
   const s = {
     players: players.map((p) => ({ ...p, hand: [] })),
-    draw: shuffle(buildDeck(), rng),
+    draw: shuffle(buildDeck({ gift }), rng),
     discard: [],
     suit: null,
     turn: 0,
@@ -45,7 +49,7 @@ export function newGame(players, rules = {}, rng = Math.random) {
     turnCount: 0,
     longestSpill: { length: 0, by: null },
     log: [],
-    rules: { surgeStack: rules.surgeStack !== false, gift: rules.gift !== false },
+    rules: { surgeStack: rules.surgeStack !== false, gift },
     rng,
   };
   for (let i = 0; i < HAND_SIZE; i++) for (const p of s.players) p.hand.push(s.draw.pop());
@@ -169,6 +173,17 @@ export function play(s, idx, move) {
   return events;
 }
 
+// Passing the turn on without a play. Stalemates can only build up this way,
+// so this is where the turn limit is enforced.
+function advance(s, idx) {
+  s.turn = nextIndex(s, idx);
+  if (s.turnCount >= MAX_TURNS) {
+    const sizes = s.players.map((p) => p.hand.length);
+    s.winner = sizes.indexOf(Math.min(...sizes));
+    log(s, { who: s.winner, did: 'won on the turn limit' });
+  }
+}
+
 /** Draw. Under a surge this takes the whole penalty and ends the turn. */
 export function draw(s, idx) {
   assertTurn(s, idx);
@@ -178,7 +193,7 @@ export function draw(s, idx) {
     const got = giveCards(s, idx, s.pendingDraw);
     log(s, { who: idx, did: `took ${got.length}` });
     s.pendingDraw = 0;
-    s.turn = nextIndex(s, idx);
+    advance(s, idx);
     return { card: null, ended: true };
   }
   const [card] = giveCards(s, idx, 1);
@@ -187,7 +202,7 @@ export function draw(s, idx) {
     s.drawn = card.id;
     return { card, ended: false };
   }
-  s.turn = nextIndex(s, idx);
+  advance(s, idx);
   return { card, ended: true };
 }
 
@@ -195,8 +210,8 @@ export function pass(s, idx) {
   assertTurn(s, idx);
   if (!s.drawn) throw new Error('Draw before passing');
   s.drawn = null;
-  s.turn = nextIndex(s, idx);
   log(s, { who: idx, did: 'passed' });
+  advance(s, idx);
 }
 
 /** What happens when a turn clock runs out. */

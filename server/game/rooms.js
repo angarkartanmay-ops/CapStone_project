@@ -123,16 +123,19 @@ function snapshot(g, idx, move) {
 
 function act(room, idx, fn, event) {
   const g = room.game;
+  let evts;
   try {
     const out = fn();
-    const evts = Array.isArray(out) ? out : [];
-    const main = evts.find((e) => e.type === 'play');
-    emitState(room, { ...event, player: idx, cards: main?.cards, extra: evts.filter((e) => e !== main).map((e) => e.type) });
+    evts = Array.isArray(out) ? out : [];
   } catch (err) {
     return err.message;
   }
+  const main = evts.find((e) => e.type === 'play');
+  const ev = { ...event, player: idx, cards: main?.cards, extra: evts.filter((e) => e !== main).map((e) => e.type) };
+  // Schedule first so the state we send carries the new turn's deadline.
+  if (g.winner === null) schedule(room);
+  emitState(room, ev);
   if (g.winner !== null) finish(room);
-  else schedule(room);
   return null;
 }
 
@@ -255,9 +258,9 @@ async function start(room, userId) {
   room.status = 'playing';
   room.startedAt = Date.now();
   await Table.updateOne({ _id: room.table._id }, { $set: { status: 'playing' } });
+  schedule(room);
   emitState(room, { type: 'deal' });
   lobbyPing(room);
-  schedule(room);
 }
 
 function leave(room, userId) {
