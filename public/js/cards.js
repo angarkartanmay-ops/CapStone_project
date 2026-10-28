@@ -16,7 +16,7 @@ const STROKED = new Set(['tide']);
 
 // 48x48 action icons
 export const ICON = {
-  surge: '<path d="M10 30 24 16l14 14M10 40 24 26l14 14" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square"/><text x="24" y="13" text-anchor="middle" font-family="Geist Mono, monospace" font-weight="700" font-size="11" fill="currentColor">+2</text>',
+  surge: '<path d="M10 34 24 21l14 13M10 45 24 32l14 13" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square"/><path d="M7 9h9M11.5 4.5v9M20 6.5c0-2.6 6-3 6 .3 0 2.6-6 4.6-6 7.2h6.5" fill="none" stroke="currentColor" stroke-width="2.6"/>',
   eddy: '<path d="M36 18a14 14 0 0 0-25-2M12 30a14 14 0 0 0 25 2" fill="none" stroke="currentColor" stroke-width="4.5"/><path d="M8 8v10h10M40 40V30H30" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square"/>',
   gift: '<path d="M8 20h32v22H8zM5 13h38v7H5zM24 13v29" fill="none" stroke="currentColor" stroke-width="4"/><path d="M24 13c-3-8-12-8-12-3s8 3 12 3c4 0 12 2 12-3s-9-5-12 3" fill="none" stroke="currentColor" stroke-width="3.5"/>',
   prism: `<path d="M24 3 45 24H24Z" fill="${INK.ember}"/><path d="M45 24 24 45V24Z" fill="${INK.sol}"/><path d="M24 45 3 24h21Z" fill="${INK.moss}"/><path d="M3 24 24 3v21Z" fill="${INK.tide}"/>`,

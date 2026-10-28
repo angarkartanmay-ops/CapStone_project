@@ -139,8 +139,8 @@ export async function createCardScene(canvas) {
     const halfW = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z * camera.aspect;
     const narrow = camera.aspect < 0.9;
     layout = narrow
-      ? { fanX: 0, fanY: -1.25, fanScale: 0.72, runX: -1.25, runY: -1.5, step: 0.5, scale: 0.68 }
-      : { fanX: Math.min(halfW * 0.48, 2.2), fanY: -0.15, fanScale: 1, runX: Math.max(halfW * 0.12, 0.05), runY: 0.05, step: 0.66, scale: 0.92 };
+      ? { fanX: 0, fanY: -1.35, fanScale: Math.min(0.72, halfW / 2.3), runX: -halfW * 0.6, runY: -1.05, step: halfW * 0.4, scale: Math.min(0.68, halfW / 2.2) }
+      : { fanX: Math.min(halfW * 0.56, 2.6), fanY: -0.05, fanScale: Math.min(1, halfW / 3.4), runX: Math.max(halfW * 0.04, 0), runY: 0.05, step: 0.66, scale: 0.92 };
   }
 
   function fanPose(i, t) {
@@ -222,7 +222,7 @@ export async function createCardScene(canvas) {
       } else {
         // What's left of the hand slides down and out of the way.
         const away = ease(clamp01((p - 0.2) / 0.5));
-        apply(card, { ...fan, y: fan.y - away * 2.4, x: fan.x + away * 0.6, rz: fan.rz - away * 0.3 }, k);
+        apply(card, { ...fan, y: fan.y - away * 4.2, x: fan.x + away * 0.8, rz: fan.rz - away * 0.4 }, k);
       }
     });
     renderer.render(scene, camera);

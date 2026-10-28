@@ -21,7 +21,7 @@ House bots fill empty seats. They **learn from past games**: every finished matc
 
 ## Run it
 
-You need **Node.js 22.9 or newer**. MongoDB is optional: without one, the server starts an embedded MongoDB and stores its files in `./.data`.
+You need **Node.js 22 or newer**. MongoDB is optional: without one, the server starts an embedded MongoDB and stores its files in `./.data`.
 
 ```bash
 npm install
@@ -100,3 +100,4 @@ We scored the twelve options on uniqueness, how well they fit the required stack
 - Strict Content Security Policy: scripts load only from this origin.
 - Login and register are rate-limited. Login errors don't reveal whether an account exists.
 - Every field is validated on the server, and the client never sees other players' hands.
+- The only third-party request is Google Fonts (CSS can't be pinned with SRI because Google tailors it per browser). The CSP allows only `fonts.googleapis.com` and `fonts.gstatic.com`.

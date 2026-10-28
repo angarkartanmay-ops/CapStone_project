@@ -43,7 +43,7 @@
           <label class="search">
             <span class="sr-only">Search tables</span>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2"/></svg>
-            <input type="search" placeholder="Search by name" data-search maxlength="40">
+            <input type="search" name="q" placeholder="Search by name" data-search maxlength="40" autocomplete="off">
           </label>
           <button class="btn" type="button" data-new data-suit="moss">New table</button>
         </div>
@@ -112,7 +112,7 @@
         <div>
           <label class="toggle"><span class="t-text"><b>Fill empty seats with bots</b><span>The house bots join when you deal.</span></span><input type="checkbox" name="botFill" checked></label>
           <label class="toggle"><span class="t-text"><b>Surges stack</b><span>Answer a surge with a surge to pass the bill on.</span></span><input type="checkbox" name="surgeStack" checked></label>
-          <label class="toggle"><span class="t-text"><b>Gift cards in play</b><span>Turn off to make gifts unplayable.</span></span><input type="checkbox" name="gift" checked></label>
+          <label class="toggle"><span class="t-text"><b>Gift cards in play</b><span>Off takes the eight gift cards out of the deck.</span></span><input type="checkbox" name="gift" checked></label>
         </div>
       </div>
       <div class="dialog-foot">

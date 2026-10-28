@@ -85,6 +85,7 @@
 /* Prism: the wild. Ink card, four-colour diamond. */
 .card.prism { background: var(--ink); color: var(--card); --c: var(--card); }
 .card.prism::after { opacity: 0.06; }
+.card.prism.action .face { background: none; }
 .card.prism .face svg { width: 62%; height: auto; }
 .card.prism .tag { color: var(--card); }
 

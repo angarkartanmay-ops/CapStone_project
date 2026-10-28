@@ -115,7 +115,9 @@ kbd { font: 500 10px/1 var(--f-mono); padding: 3px 4px; border: 1px solid curren
 .seat-list em { font: 500 11px var(--f-mono); font-style: normal; text-transform: uppercase; padding: 3px 6px; border: 1px solid var(--hair-strong); color: var(--muted); }
 .waiting-note { margin: 0 0 18px; font-size: 14px; color: var(--ink-2); }
 .waiting-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.waiting .btn { --bg: var(--ink); --fg: var(--paper); }
+.play .waiting .btn:not(.ghost):not(.outline), .play dialog .btn:not(.ghost):not(.outline) { --bg: var(--ink); --fg: var(--paper); }
+.play dialog .btn.outline { --fg: var(--ink); border-color: var(--ink); }
+.play dialog .btn.ghost { --fg: var(--ink); }
 .waiting .error { color: var(--danger); font-size: 14px; }
 .is-live .center, .felt:has(.waiting:not([hidden])) .center { transition: opacity 0.4s; }
 .felt:has(.waiting:not([hidden])) .center, .felt:has(.waiting:not([hidden])) .seats, .felt:has(.waiting:not([hidden])) .hand { opacity: 0.25; filter: blur(1px); }
@@ -134,7 +136,7 @@ kbd { font: 500 10px/1 var(--f-mono); padding: 3px 4px; border: 1px solid curren
 .actions { display: flex; gap: 8px; }
 
 .hand {
-  --cw: clamp(78px, 8.4vw, 112px);
+  --cw: clamp(70px, min(8vw, 12vh), 112px);
   --gap: min(calc(var(--cw) * 0.9), calc((100vw - 2 * var(--gutter) - var(--cw)) / max(var(--n) - 1, 1)));
   position: relative;
   display: flex;
@@ -199,3 +201,6 @@ kbd { font: 500 10px/1 var(--f-mono); padding: 3px 4px; border: 1px solid curren
   .play-bar .pb-right .btn:first-child { display: none; }
   .log { width: calc(100% - 32px); }
 }
+
+/* Toasts sit above the table, clear of the hand. */
+.play .toasts { top: 84px; bottom: auto; }

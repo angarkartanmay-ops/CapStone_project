@@ -31,7 +31,7 @@ main > section:not(.hero):not(.spill) { background: var(--paper); }
   letter-spacing: -0.01em;
   color: var(--ink-2);
 }
-.lede { margin: 0; max-width: 52ch; font-size: 18px; line-height: 1.6; color: var(--ink-2); }
+.lede { margin: 0; max-width: 46ch; font-size: 18px; line-height: 1.6; color: var(--ink-2); }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
 .stat-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0 auto; padding-bottom: 28px; }
@@ -62,8 +62,8 @@ main > section:not(.hero):not(.spill) { background: var(--paper); }
 .special-art .stack { position: relative; transform-style: preserve-3d; transition: transform 0.6s var(--ease); }
 .special-art .stack .card { --cw: clamp(150px, 16vw, 210px); }
 .special-art .stack .ghost { position: absolute; inset: 0; }
-.special-art .stack .ghost:nth-child(1) { transform: rotate(-9deg) translate(-26px, 8px); opacity: 0.55; }
-.special-art .stack .ghost:nth-child(2) { transform: rotate(6deg) translate(22px, 4px); opacity: 0.75; }
+.special-art .stack .ghost:nth-child(1) { transform: rotate(-9deg) translate(-26px, 8px); }
+.special-art .stack .ghost:nth-child(2) { transform: rotate(6deg) translate(22px, 4px); }
 .special-copy { max-width: 560px; }
 .special-k { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .special-copy h3 { margin: 14px 0 12px; font: 600 clamp(26px, 2.6vw, 36px) / 1.12 var(--f-ui); letter-spacing: -0.02em; }

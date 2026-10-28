@@ -39,7 +39,7 @@ Indexes: unique `username`, unique `email`.
 | `turnSeconds` | Number | 10–60 |
 | `botFill` | Boolean | fill empty seats with bots when dealing |
 | `rules.surgeStack` | Boolean | a surge may answer a surge |
-| `rules.gift` | Boolean | gift cards playable |
+| `rules.gift` | Boolean | gift cards in the deck (off = 92-card deck) |
 | `visibility` | String | `public` \| `private` (code only) |
 | `code` | String | unique six-character hex invite code |
 | `status` | String | `open` \| `playing` (edits and deletes are blocked while playing) |
@@ -73,7 +73,7 @@ Index: `{ 'players.user': 1, createdAt: -1 }` for profile history.
 For every move made in a match (by bots *and* people), the server records a feature vector, for example "this move sheds 3 cards and keeps a prism back". When the match ends, each weight moves toward the features of the winner's moves and slightly away from the losers' moves:
 
 ```
-w[k] += 0.02 * (+1 for winner, -1/(losers) for others) * (feature[k] - 0.5)
+w[k] += 0.005 * (+1 for winner, -1/(losers) for others) * (feature[k] - 0.5)
 ```
 
 Weights are clamped to ±3. Bots score each legal move as `Σ w[k]·feature[k]` and play the best one, with a 6% chance to explore a different move.

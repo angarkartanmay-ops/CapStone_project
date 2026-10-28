@@ -16,6 +16,14 @@ if (!reduced) {
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
+  // In-page links scroll through Lenis so the pinned scene plays instead of jumping.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute('href').length > 1) {
+      e.preventDefault();
+      lenis.scrollTo(a.getAttribute('href'));
+    }
+  });
 }
 
 /* ---------- Hero entrance ---------- */
@@ -162,9 +170,13 @@ api('/bot').then((b) => {
     </div>`;
   }).join('');
   ScrollTrigger.create({ trigger: box, start: 'top 80%', once: true, onEnter: () => box.classList.add('in') });
-  const share = b.matchesTrained ? ((b.botWins / b.matchesTrained) * 100).toFixed(1) : '0';
-  document.querySelector('[data-brain-meta]').textContent =
-    `Trained on ${fmt.format(b.matchesTrained)} matches · bots took ${share}% of them · sparklines show the last ${b.history.length} snapshots`;
+  // Report the trait that moved most since the oldest snapshot, straight from the data.
+  const first = b.history[0];
+  const moved = first && b.features.reduce((a, f) => (Math.abs(b.weights[f] - first[f]) > Math.abs(b.weights[a] - first[a]) ? f : a));
+  const delta = moved ? b.weights[moved] - first[moved] : 0;
+  document.querySelector('[data-brain-meta]').textContent = `Trained on ${fmt.format(b.matchesTrained)} matches`
+    + (moved ? ` · biggest shift: “${TRAITS[moved][0].toLowerCase()}” ${delta > 0 ? '+' : ''}${delta.toFixed(2)}` : '')
+    + ` · sparklines show the last ${b.history.length} snapshots`;
 }).catch(() => {
   document.querySelector('[data-weights]').innerHTML = '<p>The bot is offline right now.</p>';
 });

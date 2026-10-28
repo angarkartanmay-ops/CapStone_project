@@ -312,7 +312,7 @@ el.hand.addEventListener('dblclick', (e) => {
 
 function shake(node) {
   if (reduced) return;
-  gsap.fromTo(node, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
+  gsap.fromTo(node, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)', clearProps: 'transform' });
 }
 
 function tryPlay() {
@@ -436,7 +436,7 @@ function animate(ev, before, prevGame) {
       const src = from || before.hand[c.id] || before.draw;
       tl.add(fly(c, src, discardRect, 0), i * 0.12);
     });
-    if (ev.cards.length >= 3) tl.add(() => gsap.fromTo(el.discard, { scale: 1.08 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.4)' }));
+    if (ev.cards.length >= 3) tl.add(() => gsap.fromTo(el.discard, { scale: 1.08 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.4)', clearProps: 'transform' }));
   }
 
   if (ev.type === 'draw' || ev.type === 'timeout') {
@@ -449,15 +449,15 @@ function animate(ev, before, prevGame) {
 
   if (ev.type === 'deal') {
     const cards = [...el.hand.children];
-    gsap.from(cards, { y: -260, x: () => gsap.utils.random(-80, 80), rotate: () => gsap.utils.random(-30, 30), opacity: 0, duration: 0.7, stagger: 0.06, ease: 'power3.out' });
-    gsap.from(el.opps.querySelectorAll('.mini-back'), { scale: 0, opacity: 0, duration: 0.4, stagger: 0.02, delay: 0.2 });
+    gsap.from(cards, { y: -260, x: () => gsap.utils.random(-80, 80), rotate: () => gsap.utils.random(-30, 30), opacity: 0, duration: 0.7, stagger: 0.06, ease: 'power3.out', clearProps: 'transform,opacity' });
+    gsap.from(el.opps.querySelectorAll('.mini-back'), { scale: 0, opacity: 0, duration: 0.4, stagger: 0.02, delay: 0.2, clearProps: 'transform,opacity' });
   }
 
   // Newly arrived cards in my hand rise in from the pile.
   if (prevGame && g.you >= 0 && ev.type !== 'deal') {
     const old = new Set(prevGame.hand.map((c) => c.id));
     const fresh = [...el.hand.querySelectorAll('.card[data-id]')].filter((n) => !old.has(n.dataset.id));
-    if (fresh.length) gsap.from(fresh, { y: 80, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.15 });
+    if (fresh.length) gsap.from(fresh, { y: 80, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.15, clearProps: 'transform,opacity' });
   }
   if (target && !ev.cards?.length) target.style.opacity = '';
   notify(ev);
