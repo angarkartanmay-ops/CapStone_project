@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Table — Spillway</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cards.css">
+  <link rel="stylesheet" href="/css/play.css">
+  <script type="module" src="/js/play.js"></script>
+</head>
+<body class="play">
+  <header class="play-bar">
+    <a class="back" href="/lobby"><span aria-hidden="true">&larr;</span> Lobby</a>
+    <div class="pb-title">
+      <h1 data-table-name>Loading table…</h1>
+      <button class="code-chip mono" type="button" data-code hidden title="Copy invite code"></button>
+    </div>
+    <div class="pb-right">
+      <button class="btn ghost sm" type="button" data-open-rules>How to play</button>
+      <button class="btn ghost sm" type="button" data-toggle-log aria-expanded="false">Log</button>
+    </div>
+  </header>
+
+  <main class="felt" data-felt>
+    <div class="seats" data-opps></div>
+
+    <div class="center" data-center>
+      <div class="pile-wrap">
+        <button class="pile draw" type="button" data-draw-pile aria-label="Draw pile">
+          <span class="stack" aria-hidden="true"></span>
+          <span class="pile-count mono" data-draw-count></span>
+        </button>
+        <div class="pile discard" data-discard aria-live="polite"></div>
+      </div>
+      <div class="table-info">
+        <span class="suit-ring" data-suit-ring><span class="sr-only" data-suit-label></span></span>
+        <span class="dir mono" data-dir aria-label="Direction of play"></span>
+        <span class="pending mono" data-pending hidden></span>
+      </div>
+    </div>
+
+    <section class="waiting" data-waiting hidden aria-labelledby="waiting-h">
+      <p class="eyebrow" data-waiting-eyebrow>Waiting for players</p>
+      <h2 id="waiting-h" class="display" data-waiting-title>Pull up a chair.</h2>
+      <ol class="seat-list" data-seat-list></ol>
+      <p class="waiting-note" data-waiting-note></p>
+      <div class="waiting-actions">
+        <button class="btn" type="button" data-deal data-suit="sol">Deal the cards</button>
+        <span class="error" data-deal-error role="alert"></span>
+      </div>
+    </section>
+
+    <aside class="log" data-log hidden aria-label="Match log"><ol data-log-list></ol></aside>
+
+    <section class="me" aria-label="Your hand">
+      <div class="me-bar">
+        <div class="me-id" data-me-id></div>
+        <p class="status" data-status aria-live="polite"></p>
+        <div class="actions">
+          <button class="btn ghost sm" type="button" data-clear hidden>Clear</button>
+          <button class="btn outline sm" type="button" data-draw disabled>Draw <kbd>D</kbd></button>
+          <button class="btn sm" type="button" data-play disabled data-suit="sol">Play <kbd>&crarr;</kbd></button>
+        </div>
+      </div>
+      <div class="hand" data-hand role="group" aria-label="Cards in your hand"></div>
+    </section>
+
+    <div class="suit-picker" data-suit-picker hidden role="dialog" aria-label="Pick a suit for the prism">
+      <p>Name the suit that follows</p>
+      <div>
+        <button type="button" data-pick="ember" data-suit="ember">Ember</button>
+        <button type="button" data-pick="tide" data-suit="tide">Tide</button>
+        <button type="button" data-pick="moss" data-suit="moss">Moss</button>
+        <button type="button" data-pick="sol" data-suit="sol">Sol</button>
+      </div>
+      <button class="btn ghost sm" type="button" data-pick-cancel>Cancel</button>
+    </div>
+  </main>
+
+  <dialog id="results" aria-labelledby="results-h">
+    <div class="dialog-head"><h2 id="results-h">Match over</h2><span class="eyebrow mono" data-results-meta></span></div>
+    <div class="dialog-body"><ol class="results" data-results></ol></div>
+    <div class="dialog-foot">
+      <a class="btn outline" href="/lobby">Back to lobby</a>
+      <button class="btn" type="button" data-again data-suit="sol">Deal again</button>
+    </div>
+  </dialog>
+
+  <dialog id="rules" aria-labelledby="rules-h">
+    <div class="dialog-head"><h2 id="rules-h">How to play</h2><button class="btn ghost sm" type="button" data-close-rules>Close</button></div>
+    <div class="dialog-body rules-short">
+      <p><b>Goal.</b> Be first to empty your hand.</p>
+      <p><b>On your turn</b> play a card that matches the top card's suit or number, or an action that matches its action. A prism plays on anything.</p>
+      <p><b>Spill.</b> After a number, keep adding numbers of the same suit that climb or fall by one: 4, 5, 6. Select them in order, then press Play. Three or more cards make the next player draw one.</p>
+      <p><b>Can't or won't play?</b> Draw one. If it fits you may play it, otherwise your turn ends.</p>
+      <p><b>Surge</b> next player draws two, unless they surge back. <b>Eddy</b> reverses play. <b>Gift</b> hand one of your cards to the next player.</p>
+      <p class="mono small">Keys: click cards to select · Enter plays · D draws · P passes · Esc clears</p>
+      <a class="btn outline sm" href="/rules" target="_blank">Full rules</a>
+    </div>
+  </dialog>
+</body>
+</html>

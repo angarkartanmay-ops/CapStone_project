@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lobby — Spillway</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cards.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/lobby.js"></script>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header data-header></header>
+
+  <main id="main" class="wrap lobby">
+    <section class="lobby-top">
+      <div>
+        <p class="eyebrow" data-today>&nbsp;</p>
+        <h1 class="display" data-greet>&nbsp;</h1>
+      </div>
+      <dl class="me-strip" data-me>
+        <div><dt>Rating</dt><dd class="mono skel">&nbsp;</dd></div>
+        <div><dt>Rank</dt><dd class="mono skel">&nbsp;</dd></div>
+        <div><dt>Played</dt><dd class="mono skel">&nbsp;</dd></div>
+        <div><dt>Win rate</dt><dd class="mono skel">&nbsp;</dd></div>
+      </dl>
+    </section>
+
+    <div class="lobby-grid">
+      <section class="tables-panel" aria-labelledby="tables-h">
+        <div class="tables-bar">
+          <h2 id="tables-h" class="display">Tables</h2>
+          <div class="filters" role="group" aria-label="Filter tables">
+            <button type="button" class="on" data-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-filter="open" aria-pressed="false">Open seats</button>
+            <button type="button" data-filter="mine" aria-pressed="false">Hosted by me</button>
+          </div>
+          <label class="search">
+            <span class="sr-only">Search tables</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2"/></svg>
+            <input type="search" placeholder="Search by name" data-search maxlength="40">
+          </label>
+          <button class="btn" type="button" data-new data-suit="moss">New table</button>
+        </div>
+
+        <form class="join-code" data-join novalidate>
+          <label for="code">Have an invite code?</label>
+          <input id="code" name="code" class="input mono" placeholder="e.g. 7F2A9C" maxlength="6" autocomplete="off" spellcheck="false">
+          <button class="btn outline sm" type="submit">Join</button>
+          <span class="error" data-join-error role="alert"></span>
+        </form>
+
+        <ul class="table-list" data-tables aria-live="polite">
+          <li class="t-row skel" style="height:88px"></li>
+          <li class="t-row skel" style="height:88px"></li>
+          <li class="t-row skel" style="height:88px"></li>
+        </ul>
+      </section>
+
+      <aside class="side">
+        <section id="leaderboard" aria-labelledby="lb-h">
+          <div class="side-head"><h2 id="lb-h" class="display">Leaderboard</h2><span class="eyebrow">Elo rating</span></div>
+          <ol class="lb" data-board></ol>
+        </section>
+        <section aria-labelledby="recent-h">
+          <div class="side-head"><h2 id="recent-h" class="display">Recent</h2><span class="eyebrow">All tables</span></div>
+          <ul class="feed" data-feed></ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <dialog id="table-dialog" aria-labelledby="table-dialog-h">
+    <form method="dialog" class="table-form" novalidate>
+      <div class="dialog-head">
+        <h2 id="table-dialog-h">New table</h2>
+        <button class="btn ghost sm" value="cancel" formnovalidate aria-label="Close">Close</button>
+      </div>
+      <div class="dialog-body">
+        <p class="form-error" role="alert"></p>
+        <div class="field">
+          <label for="t-name">Table name</label>
+          <input id="t-name" name="name" type="text" maxlength="40" required placeholder="Monsoon Room">
+          <span class="error"></span>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <span class="label" id="seats-l">Seats</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="seats-l">
+              <input type="radio" id="s3" name="seats" value="3"><label for="s3">3</label>
+              <input type="radio" id="s4" name="seats" value="4" checked><label for="s4">4</label>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="vis-l">Who can see it</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="vis-l">
+              <input type="radio" id="v-pub" name="visibility" value="public" checked><label for="v-pub">Public</label>
+              <input type="radio" id="v-pri" name="visibility" value="private"><label for="v-pri">Code only</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="t-turn">Turn clock <output class="mono" for="t-turn" data-turn-out>25s</output></label>
+          <input id="t-turn" name="turnSeconds" type="range" min="10" max="60" step="5" value="25">
+          <span class="error"></span>
+        </div>
+        <div>
+          <label class="toggle"><span class="t-text"><b>Fill empty seats with bots</b><span>The house bots join when you deal.</span></span><input type="checkbox" name="botFill" checked></label>
+          <label class="toggle"><span class="t-text"><b>Surges stack</b><span>Answer a surge with a surge to pass the bill on.</span></span><input type="checkbox" name="surgeStack" checked></label>
+          <label class="toggle"><span class="t-text"><b>Gift cards in play</b><span>Turn off to make gifts unplayable.</span></span><input type="checkbox" name="gift" checked></label>
+        </div>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn outline" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn" type="submit" value="save" data-save data-suit="moss">Create table</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="delete-dialog" aria-labelledby="delete-h">
+    <form method="dialog">
+      <div class="dialog-head"><h2 id="delete-h">Close this table?</h2></div>
+      <div class="dialog-body"><p data-delete-text>It disappears from the lobby. Past matches stay in everyone's history.</p></div>
+      <div class="dialog-foot">
+        <button class="btn outline" value="cancel">Keep it</button>
+        <button class="btn danger" value="delete" data-confirm-delete>Close table</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
