@@ -4,6 +4,8 @@ A real-time multiplayer card game for three or four players, built as the capsto
 
 Spillway is a shedding game: everyone gets seven cards and the first to empty their hand wins. Its own rule is the **spill**: after you play a number, you can keep laying down more of the same suit as long as each card steps up or down by one (Tide 4, 5, 6, 7). A spill of three or more makes the next player draw a card. Four action cards (Surge, Eddy, Gift, Prism) change how a round goes.
 
+**New to the game? Read [HOW_TO_PLAY.md](HOW_TO_PLAY.md)**: every rule, edge case, the scoring and rating maths, and how the bots learn.
+
 House bots fill empty seats. They **learn from past games**: every finished match nudges their move-scoring weights toward what the winner did, and the live weights are shown on the home page.
 
 | Requirement from the brief | Where it lives |
@@ -61,7 +63,9 @@ Copy `.env.example` to `.env` and adjust:
 3. On your turn, click a card that matches the top card's suit or number. To spill, keep clicking cards of that suit one step up or down, then press **Play** (or Enter). Press **D** to draw.
 4. When the match ends, ratings update and the bots train on the match.
 
-Full rules are at `/rules` once the server is running.
+The complete guide is [HOW_TO_PLAY.md](HOW_TO_PLAY.md). In the app, the same rules are at `/rules`, and there is a short version under **How to play** on the game table.
+
+The site has light and dark themes. It follows your device setting until you pick one with the sun/moon button in the header, and then remembers your choice.
 
 ## Project layout
 
@@ -87,6 +91,7 @@ public/
   js/, css/         Page scripts and styles
 test/               node:test suites
 docs/               Requirements, database design, API, viva notes
+HOW_TO_PLAY.md      The complete game guide
 ```
 
 ## Why this project
