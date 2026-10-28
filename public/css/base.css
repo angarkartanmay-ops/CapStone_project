@@ -3,19 +3,34 @@
    the only saturated colour comes from the four suit inks. */
 
 :root {
+  /* Printed things (card faces, backs, monograms) look the same in both themes. */
+  --card: #f7f2e8;
+  --print-ink: #1b1916;
+  --print-ember: #c4452c;
+  --print-tide: #2b4a9c;
+  --print-moss: #2d6a4d;
+  --print-sol: #cf9322;
+  /* Always-dark bands (bot weights, closer, auth panel) and the text on them. */
+  --night: #1b1916;
+  --on-night: #eee8dc;
+
+  /* Theme-dependent. Dark values are below. */
   --paper: #eee8dc;
   --paper-2: #e6dfd0;
-  --card: #f7f2e8;
+  --field: #f7f2e8;
   --ink: #1b1916;
   --ink-2: #34312b;
   --muted: #6c655a;
   --hair: rgba(27, 25, 22, 0.14);
   --hair-strong: rgba(27, 25, 22, 0.32);
+  --wash: rgba(27, 25, 22, 0.06);
+  --shimmer: rgba(247, 242, 232, 0.7);
+  --shadow-hard: rgba(27, 25, 22, 0.9);
 
-  --ember: #c4452c;
-  --tide: #2b4a9c;
-  --moss: #2d6a4d;
-  --sol: #cf9322;
+  --ember: var(--print-ember);
+  --tide: var(--print-tide);
+  --moss: var(--print-moss);
+  --sol: var(--print-sol);
 
   --ok: #2d6a4d;
   --danger: #b23a22;
@@ -29,6 +44,39 @@
   --gutter: clamp(16px, 4vw, 48px);
   --max: 1360px;
   --shadow-card: 0 1px 0 rgba(27, 25, 22, 0.08), 0 14px 28px -16px rgba(60, 44, 20, 0.45);
+  color-scheme: light;
+}
+
+/* Dark theme: warm charcoal instead of paper. js/theme.js sets data-theme before
+   first paint, from the saved choice or the system setting. Suit inks are lifted
+   so they stay readable as text on the dark page. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #161512;
+  --paper-2: #1f1d19;
+  --field: #1f1d19;
+  --ink: #ece6da;
+  --ink-2: #cfc8bb;
+  --muted: #9b9385;
+  --hair: rgba(236, 230, 218, 0.13);
+  --hair-strong: rgba(236, 230, 218, 0.3);
+  --wash: rgba(236, 230, 218, 0.07);
+  --shimmer: rgba(236, 230, 218, 0.08);
+  --shadow-hard: rgba(0, 0, 0, 0.65);
+  --night: #0d0c0a;
+  --ember: #e46b4e;
+  --tide: #8199ec;
+  --moss: #5fae86;
+  --sol: #e6b04a;
+  --ok: #5fae86;
+  --danger: #ff7f61;
+  --shadow-card: 0 1px 0 rgba(0, 0, 0, 0.3), 0 14px 28px -14px rgba(0, 0, 0, 0.8);
+}
+:root[data-theme='dark'] body::after { mix-blend-mode: screen; opacity: 0.07; }
+
+/* Colours glide when the theme is switched (the class is on for 400ms). */
+.theme-switching, .theme-switching *, .theme-switching *::before, .theme-switching *::after {
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease), fill 0.4s var(--ease) !important;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -119,9 +167,33 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .nav-links a:hover, .nav-links a[aria-current='page'] { background-size: 100% 1.5px; color: var(--ink); }
 .nav-user { display: flex; align-items: center; gap: 12px; }
 .chip-user { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font: 500 14px/1 var(--f-ui); }
+
+/* Light/dark switch: the moon shows in light mode, the sun in dark. */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  margin-right: -12px;
+  padding: 0;
+  border: 1px solid var(--hair-strong);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.25s var(--ease);
+}
+.theme-toggle:hover { border-color: currentColor; }
+.theme-toggle:active { transform: translateY(1px); }
+.theme-toggle svg { grid-area: 1 / 1; transition: transform 0.5s var(--ease), opacity 0.3s; }
+.theme-toggle .sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+[data-theme='dark'] .theme-toggle .sun { opacity: 1; transform: none; }
+[data-theme='dark'] .theme-toggle .moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .site-head .wrap { justify-content: space-between; }
+  .site-head .theme-toggle { margin-left: auto; }
   .chip-user span.name { display: none; }
 }
 
@@ -133,17 +205,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
   height: 32px;
   flex: none;
   border-radius: 50%;
-  background: var(--suit, var(--ink));
+  background: var(--suit-print, var(--print-ink));
   color: var(--card);
   font: 700 13px/1 var(--f-mono);
   letter-spacing: -0.02em;
 }
 .mono-badge.lg { width: 88px; height: 88px; font-size: 30px; }
 .mono-badge.bot { background: transparent; color: var(--muted); border: 1.5px dashed var(--hair-strong); }
-[data-suit='ember'] { --suit: var(--ember); }
-[data-suit='tide'] { --suit: var(--tide); }
-[data-suit='moss'] { --suit: var(--moss); }
-[data-suit='sol'] { --suit: var(--sol); }
+[data-suit='ember'] { --suit: var(--ember); --suit-print: var(--print-ember); }
+[data-suit='tide'] { --suit: var(--tide); --suit-print: var(--print-tide); }
+[data-suit='moss'] { --suit: var(--moss); --suit-print: var(--print-moss); }
+[data-suit='sol'] { --suit: var(--sol); --suit-print: var(--print-sol); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -170,7 +242,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn[disabled] { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn.outline { --bg: transparent; --fg: var(--ink); border-color: var(--ink); }
 .btn.ghost { --bg: transparent; --fg: var(--ink); border-color: transparent; padding-inline: 10px; }
-.btn.ghost:hover { box-shadow: none; transform: none; background: rgba(27, 25, 22, 0.06); }
+.btn.ghost:hover { box-shadow: none; transform: none; background: var(--wash); }
 .btn.danger { --bg: var(--danger); --fg: #fff; }
 .btn.sm { min-height: 36px; padding: 0 14px; font-size: 14px; }
 .btn .arrow { transition: transform 0.35s var(--ease); }
@@ -185,7 +257,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 11px 14px;
   border: 1.5px solid var(--hair-strong);
   border-radius: 0;
-  background: var(--card);
+  background: var(--field);
   font: 400 15px/1.4 var(--f-ui);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -227,7 +299,7 @@ dialog {
   border: 1.5px solid var(--ink);
   background: var(--paper);
   color: var(--ink);
-  box-shadow: 10px 10px 0 rgba(27, 25, 22, 0.9);
+  box-shadow: 10px 10px 0 var(--shadow-hard);
 }
 dialog::backdrop { background: rgba(27, 25, 22, 0.42); backdrop-filter: blur(3px); }
 dialog[open] { animation: pop 0.45s var(--ease); }
@@ -257,13 +329,13 @@ dialog[open] { animation: pop 0.45s var(--ease); }
 @keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
 
 /* ---------- Skeletons ---------- */
-.skel { position: relative; overflow: hidden; background: rgba(27, 25, 22, 0.07); }
+.skel { position: relative; overflow: hidden; background: var(--wash); }
 .skel::after {
   content: '';
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgba(247, 242, 232, 0.7), transparent);
+  background: linear-gradient(90deg, transparent, var(--shimmer), transparent);
   animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer { to { transform: translateX(100%); } }

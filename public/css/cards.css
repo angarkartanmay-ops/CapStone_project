@@ -1,7 +1,7 @@
 /* Playing cards. Size with --cw; everything inside scales from it. */
 .card {
   --cw: 104px;
-  --c: var(--ink);
+  --c: var(--print-ink);
   position: relative;
   width: var(--cw);
   aspect-ratio: 5 / 7;
@@ -15,10 +15,10 @@
   overflow: hidden;
   isolation: isolate;
 }
-.card.ember { --c: var(--ember); }
-.card.tide { --c: var(--tide); }
-.card.moss { --c: var(--moss); }
-.card.sol { --c: var(--sol); }
+.card.ember { --c: var(--print-ember); }
+.card.tide { --c: var(--print-tide); }
+.card.moss { --c: var(--print-moss); }
+.card.sol { --c: var(--print-sol); }
 
 /* inset frame */
 .card::before {
@@ -83,14 +83,14 @@
 .card.action .corner.b { display: none; }
 
 /* Prism: the wild. Ink card, four-colour diamond. */
-.card.prism { background: var(--ink); color: var(--card); --c: var(--card); }
+.card.prism { background: var(--print-ink); color: var(--card); --c: var(--card); }
 .card.prism::after { opacity: 0.06; }
 .card.prism.action .face { background: none; }
 .card.prism .face svg { width: 62%; height: auto; }
 .card.prism .tag { color: var(--card); }
 
 /* Back */
-.card.back { background: var(--ink); --c: var(--sol); }
+.card.back { background: var(--print-ink); --c: var(--print-sol); }
 .card.back::before { border-color: rgba(238, 232, 220, 0.4); }
 .card.back::after {
   opacity: 1;

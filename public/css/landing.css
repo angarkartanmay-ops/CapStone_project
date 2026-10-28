@@ -70,7 +70,7 @@ main > section:not(.hero):not(.spill) { background: var(--paper); }
 .special-copy p { margin: 0; font: 400 19px/1.6 var(--f-serif); color: var(--ink-2); max-width: 46ch; }
 
 /* The table learns (ink section) */
-.learns { background: var(--ink) !important; color: var(--paper); padding-block: clamp(80px, 11vw, 150px); }
+.learns { background: var(--night) !important; color: var(--on-night); padding-block: clamp(80px, 11vw, 150px); }
 .learns .eyebrow { color: rgba(238, 232, 220, 0.6); }
 .learns-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
 .learns h2 { margin: 14px 0 22px; font-size: clamp(48px, 6vw, 92px); }
@@ -111,7 +111,7 @@ main > section:not(.hero):not(.spill) { background: var(--paper); }
 .recent-list small { display: block; margin-top: 4px; font: 400 12px var(--f-mono); color: var(--muted); }
 
 /* Closer */
-.closer { background: var(--ink) !important; color: var(--paper); overflow: hidden; padding-bottom: clamp(64px, 9vw, 120px); }
+.closer { background: var(--night) !important; color: var(--on-night); overflow: hidden; padding-bottom: clamp(64px, 9vw, 120px); }
 .marquee { border-bottom: 1px solid rgba(238, 232, 220, 0.18); padding-block: 22px; overflow: hidden; }
 .marquee-track { display: flex; align-items: center; gap: 36px; width: max-content; font-size: clamp(48px, 7vw, 104px); color: transparent; -webkit-text-stroke: 1.2px rgba(238, 232, 220, 0.55); animation: marquee 32s linear infinite; }
 .marquee-track i { width: 22px; height: 22px; transform: rotate(45deg); background: var(--sol); flex: none; }
@@ -122,8 +122,8 @@ main > section:not(.hero):not(.spill) { background: var(--paper); }
 .closer-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 40px; align-items: end; padding-top: clamp(56px, 8vw, 110px); }
 .closer h2 { margin: 0; font-size: clamp(80px, 13vw, 210px); }
 .closer p { color: rgba(238, 232, 220, 0.75); margin: 0 0 24px; max-width: 38ch; }
-.closer .btn { --bg: var(--paper); --fg: var(--ink); }
-.site-foot.dark { background: var(--ink); color: rgba(238, 232, 220, 0.55); border-top: 1px solid rgba(238, 232, 220, 0.14); position: relative; z-index: 1; }
+.closer .btn { --bg: var(--on-night); --fg: var(--night); }
+.site-foot.dark { background: var(--night); color: rgba(238, 232, 220, 0.55); border-top: 1px solid rgba(238, 232, 220, 0.14); position: relative; z-index: 1; }
 
 /* Mobile collapse */
 @media (max-width: 900px) {

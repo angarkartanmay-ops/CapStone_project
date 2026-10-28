@@ -1,8 +1,9 @@
 import { io } from '/socket.io/socket.io.esm.min.js';
 import { gsap } from '/vendor/gsap/index.js';
-import { requireUser, esc, badge, toast, prefersReducedMotion } from './core.js';
+import { requireUser, esc, badge, toast, prefersReducedMotion, themeToggle } from './core.js';
 import { cardEl, describe, SUIT_NAMES, glyphSvg } from './cards.js';
 
+document.querySelector('.pb-right').prepend(themeToggle());
 const user = await requireUser();
 const tableId = new URLSearchParams(location.search).get('t');
 const reduced = prefersReducedMotion();

@@ -28,6 +28,7 @@ Priority: **M** = must have (done), **S** = should have (done), **C** = could ha
 | U4 | As a player, I want clear messages under each field when something is wrong, so I know exactly what to fix. | M |
 | U5 | As a player, I want to edit my display name, bio and favourite suit. | S |
 | U6 | As a player, I want to delete my account and data, confirmed with my password. | S |
+| U7 | As a player, I want a dark theme that follows my device setting and remembers my choice, so late-night games are easy on the eyes. | S |
 
 ### Tables (the CRUD collection)
 | # | Story | Priority |

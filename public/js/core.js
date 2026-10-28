@@ -53,6 +53,27 @@ const NAV = [
   ['/lobby#leaderboard', 'Leaderboard'],
 ];
 
+/** Light/dark switch. The theme itself is applied by js/theme.js before first paint. */
+export function themeToggle() {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'theme-toggle';
+  b.innerHTML = `<svg class="moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3 7 7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+  const sync = () => {
+    const dark = window.spillwayTheme?.current() === 'dark';
+    b.setAttribute('aria-pressed', dark);
+    b.setAttribute('aria-label', 'Dark theme');
+    b.title = dark ? 'Switch to light theme' : 'Switch to dark theme';
+  };
+  b.addEventListener('click', () => {
+    window.spillwayTheme?.set(window.spillwayTheme.current() === 'dark' ? 'light' : 'dark');
+  });
+  addEventListener('themechange', sync);
+  sync();
+  return b;
+}
+
 export async function mountHeader() {
   const head = document.querySelector('[data-header]');
   if (!head) return;
@@ -63,6 +84,7 @@ export async function mountHeader() {
     <nav class="nav-links" aria-label="Main">${NAV.map(([href, label]) => `<a href="${href}" ${href === here ? 'aria-current="page"' : ''}>${label}</a>`).join('')}</nav>
     <div class="nav-user"></div>
   </div>`;
+  head.querySelector('.nav-user').before(themeToggle());
   const slot = head.querySelector('.nav-user');
   const user = await me();
   if (user) {

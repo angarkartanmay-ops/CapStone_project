@@ -1,6 +1,8 @@
-import { api, me } from './core.js';
+import { api, me, themeToggle } from './core.js';
 import { validateForm, setErrors, liveValidate, busy } from './forms.js';
 import { cardEl } from './cards.js';
+
+document.querySelector('.auth-main').prepend(themeToggle());
 
 const params = new URLSearchParams(location.search);
 // Only allow same-site paths as a redirect target.

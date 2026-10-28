@@ -108,6 +108,12 @@ export async function createCardScene(canvas) {
   catcher.position.z = -0.6;
   catcher.receiveShadow = true;
   scene.add(catcher);
+  // Shadows need to be deeper to read on the dark page.
+  const shadeForTheme = () => {
+    catcher.material.opacity = document.documentElement.dataset.theme === 'dark' ? 0.55 : 0.16;
+  };
+  shadeForTheme();
+  addEventListener('themechange', shadeForTheme);
 
   // Canvas text only uses fonts that are already loaded, so ask for them explicitly.
   await Promise.all([
@@ -140,12 +146,12 @@ export async function createCardScene(canvas) {
     const narrow = camera.aspect < 0.9;
     layout = narrow
       ? { fanX: 0, fanY: -1.35, fanScale: Math.min(0.72, halfW / 2.3), runX: -halfW * 0.6, runY: -1.05, step: halfW * 0.4, scale: Math.min(0.68, halfW / 2.2) }
-      : { fanX: Math.min(halfW * 0.56, 2.6), fanY: -0.05, fanScale: Math.min(1, halfW / 3.4), runX: Math.max(halfW * 0.04, 0), runY: 0.05, step: 0.66, scale: 0.92 };
+      : { fanX: Math.min(halfW * 0.45, 2.2), fanY: -0.05, fanScale: Math.min(1, halfW / 3.4), runX: Math.max(halfW * 0.04, 0), runY: 0.05, step: 0.66, scale: 0.92 };
   }
 
   function fanPose(i, t) {
     const slot = FAN_SLOT[i];
-    const a = (slot - 3) * 0.17;
+    const a = (slot - 3) * 0.15;
     const r = 2.6 * layout.fanScale;
     return {
       x: layout.fanX + Math.sin(a) * r,
